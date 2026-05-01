@@ -1,6 +1,9 @@
 FROM node:16-alpine
-WORKDIR /app
+WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
-CMD ["node", "app.js"]
+RUN adduser -D appuser && chown -R appuser /usr/src/app
+USER appuser
+EXPOSE 3000
+CMD ["npm", "start"]
